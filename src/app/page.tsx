@@ -1,5 +1,6 @@
 import Pagination from "@/components/Pagination";
 
+
 type Post = {
   userId: number,
   id: number,
@@ -12,7 +13,9 @@ type SearchParams = {
 }
 
 async function getPosts({ searchParams }: SearchParams) {
-  const response = await fetch('https://jsonplaceholder.typicode.com/todos/')
+
+  const response = await fetch(process.env.URL + '/mocks/posts.json')
+
   const data: Post[] = await response.json()
 
   const page = searchParams['page'] ?? '1'
@@ -24,6 +27,7 @@ async function getPosts({ searchParams }: SearchParams) {
   const end = start + pageSize
 
   const entries = data.slice(start, end)
+
 
   return { entries, pagesCount, start, end, lenght: data.length }
 }

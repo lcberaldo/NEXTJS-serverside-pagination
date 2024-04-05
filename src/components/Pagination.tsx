@@ -20,8 +20,8 @@ type Pagination =
 
 export default function Pagination({
   pagesCount,
-  start,
   lenght,
+  start,
   end,
   hasControls }: Pagination) {
 
@@ -34,6 +34,8 @@ export default function Pagination({
 
   if (pagesCount === 1) return null;
   const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
+
+  console.log(pages)
 
   return (
     <div className="my-8 " >
