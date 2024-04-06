@@ -1,11 +1,11 @@
 import Pagination from "@/components/Pagination";
 
 
-type Post = {
-  userId: number,
+export type Post = {
   id: number,
   title: string,
-  completed: boolean
+  body: string,
+  image_url: string
 }
 
 type SearchParams = {
@@ -18,13 +18,15 @@ async function getPosts({ searchParams }: SearchParams) {
 
   const data: Post[] = await response.json()
 
+
   const page = searchParams['page'] ?? '1'
 
   const pageSize = 10;
   const pagesCount = Math.ceil(data.length / pageSize);
 
-  const start = Number(page) - 1
+  const start = (Number(page) - 1) * pageSize
   const end = start + pageSize
+
 
   const entries = data.slice(start, end)
 
