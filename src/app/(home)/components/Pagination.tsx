@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { ArrowLeft, ArrowRight } from "@phosphor-icons/react";
 
 type Pagination =
   | {
@@ -37,23 +38,23 @@ export default function Pagination({
 
 
   return (
-    <div className="my-8 " >
+    <div className="my-8 w-full" >
 
       {hasControls ? (
-        <div className="flex gap-8 items-center">
+        <div className="flex  items-center justify-between">
           <button
             disabled={!hasPrevPage}
             onClick={() => router.push(`?page=${Number(page) - 1}`)}
             className="px-5 py-2 bg-blue-400 text-white text-xl rounded-md "
-          >prev</button>
+          ><ArrowLeft size={30} /></button>
 
-          <span>{page}</span>
+          <span className="text-3xl font-bold ">{page}</span>
 
           <button
             disabled={!hasNextPage}
             onClick={() => router.push(`?page=${Number(page) + 1}`)}
             className="px-5 py-2 bg-blue-400 text-white text-xl rounded-md "
-          >next</button>
+          ><ArrowRight size={30} /></button>
         </div>
       ) : (
         pages.map((page) =>

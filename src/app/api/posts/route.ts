@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import fsPromises from 'fs/promises'
-import { Post } from "@/app/page";
+import { Post } from "@/types";
 
 const postsFilePath = path.join(process.cwd(), 'public/mocks/posts.json')
 
@@ -22,9 +22,13 @@ export async function PATCH(req: NextRequest) {
     const posts = await fsPromises.readFile(postsFilePath, 'utf-8')
     const jsonArray = JSON.parse(posts)
 
+
     const { id, title, body, image_url } = await req.json()
 
-    const postIndex = jsonArray.findIndex((post: Post) => post.id === id)
+
+
+    const postIndex = jsonArray.findIndex((post: Post) => post.id === Number(id))
+
 
     if (postIndex < 0) {
       return new NextResponse(
@@ -35,10 +39,12 @@ export async function PATCH(req: NextRequest) {
 
     let desiredPost = jsonArray[postIndex]
 
-    desiredPost.id = id ? id : desiredPost.id
+
+    desiredPost.id = id ? Number(id) : Number(desiredPost.id)
     desiredPost.title = title ? title : desiredPost.title
     desiredPost.body = body ? body : desiredPost.body
     desiredPost.image_url = image_url ? image_url : desiredPost.image_url
+
 
     jsonArray[postIndex] = desiredPost
 
