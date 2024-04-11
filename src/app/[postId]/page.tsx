@@ -1,7 +1,7 @@
 import { Post } from '@/types'
 import Card from '../components/Card'
-import Form from './components/Form'
 import Backbutton from './components/Backbutton'
+import Form from '../components/Form'
 
 type ParampsProps = {
   params: {
@@ -11,7 +11,7 @@ type ParampsProps = {
 
 const PostPage = async ({ params }: ParampsProps) => {
   const response = await fetch(process.env.URL + '/api/posts')
-  const json = await response.json()
+  const json: Post[] = await response.json()
 
   const { postId } = params
   const desiredPost = json.find((post: Post) => post.id === Number(postId))
@@ -30,7 +30,7 @@ const PostPage = async ({ params }: ParampsProps) => {
       <div className='max-w-5xl flex align-top justify-center gap-20  mx-auto pb-12' >
         <Card post={desiredPost} />
 
-        <Form postId={postId} />
+        <Form formType='patch' postId={postId} />
       </div>
     </>
   )

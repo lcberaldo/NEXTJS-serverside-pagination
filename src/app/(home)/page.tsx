@@ -6,7 +6,7 @@ import Menu from "./components/Menu";
 
 export async function getPosts({ searchParams }: SearchParams) {
 
-  const response = await fetch(process.env.URL + '/mocks/posts.json')
+  const response = await fetch(process.env.URL + '/api/posts')
 
   const data: Post[] = await response.json()
 
@@ -20,7 +20,7 @@ export async function getPosts({ searchParams }: SearchParams) {
   const end = start + pageSize
 
 
-  const entries = data.slice(start, end)
+  const entries = data.reverse().slice(start, end)
 
 
   return { entries, pagesCount, start, end, lenght: data.length }

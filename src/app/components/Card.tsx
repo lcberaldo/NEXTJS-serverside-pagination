@@ -1,25 +1,21 @@
-import { CardType } from '@/types'
+import { Post } from '@/types'
 import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
 
+type PostProps = {
+  post: Post
+}
 
-
-const Card = ({ post }: CardType) => {
-
-
-  const { title, body, image_url } = post
-
-
+const Card = ({ post }: PostProps) => {
 
   return (
     <div className='max-w-xs rounded-2xl overflow-hidden bg-zinc-200'>
       <div className='w-full'>
-        <Image priority={true} src={image_url} width={650} height={200} alt='' />
+        <Image src={post?.image_url} width={650} height={200} alt='' />
       </div>
       <div className='py-6 px-4 text-black'>
-        <h2 className='font-bold text-lg' >{title}</h2>
-        <p>{body}</p>
+        <h2 className='font-bold text-lg' >{post?.title}</h2>
+        <p>{post?.body}</p>
       </div>
 
     </div>

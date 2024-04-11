@@ -5,14 +5,23 @@ import { Button, Popover, Whisper } from 'rsuite';
 import { CheckSquare, PlusCircle, } from '@phosphor-icons/react';
 import { Twirl as Hamburger } from 'hamburger-react'
 import { useRef, useState } from 'react';
+import ModalComponent from '@/app/components/Modal';
 
-
+type RefProps = {
+  close: () => void
+}
 
 
 const Menu = () => {
   const [isModalActive, setIsModalActive] = useState(false)
   const [isMenuOpen, setMenuOpen] = useState(false)
-  const whisperRef = useRef(null)
+
+  const [open, setOpen] = useState(false);
+  const [backdrop, setBackdrop] = useState('static');
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const whisperRef = useRef<RefProps>()
 
 
 
@@ -20,10 +29,15 @@ const Menu = () => {
   function handleCreateModal(e: React.FormEvent) {
     e.preventDefault()
 
-    if (whisperRef.current) {
-      setMenuOpen(!isMenuOpen)
-      whisperRef.current.close()
+    if (!whisperRef.current) {
+      throw Error()
     }
+
+    setMenuOpen(!isMenuOpen)
+    whisperRef.current.close()
+
+    handleOpen()
+
   }
 
 
@@ -36,6 +50,7 @@ const Menu = () => {
 
   return (
     <div className="relative"  >
+      <ModalComponent open={open} onClose={handleClose} />
 
       <Whisper
         placement="left"

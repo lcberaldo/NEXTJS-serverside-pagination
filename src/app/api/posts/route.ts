@@ -7,12 +7,15 @@ const postsFilePath = path.join(process.cwd(), 'public/mocks/posts.json')
 
 
 export async function GET() {
+
   try {
     const posts = await fsPromises.readFile(postsFilePath, 'utf-8')
-    const json = JSON.parse(posts)
+    const json = await JSON.parse(posts)
+
     return NextResponse.json(json)
 
   } catch (error) {
+    console.log(error)
     return new NextResponse(JSON.stringify({ message: 'No posts found' }), { status: 404, headers: { 'content-type': 'application/json' } })
   }
 }
@@ -98,7 +101,8 @@ export async function DELETE(req: NextRequest) {
 
     const { id } = await req.json()
 
-    const newJsonArray = jsonArray.filter((post: Post) => id !== post.id)
+
+    const newJsonArray = jsonArray.filter((post: Post) => Number(id) !== post.id)
 
     const updatedData = JSON.stringify(newJsonArray)
 
