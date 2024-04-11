@@ -19,6 +19,10 @@ const Form = ({ postId, formType, closeModal }: ParampsProps) => {
 
   async function handleDeletePost() {
 
+    console.log(postId)
+
+
+
     if (postId) {
       const options = {
         method: 'delete',
@@ -31,10 +35,12 @@ const Form = ({ postId, formType, closeModal }: ParampsProps) => {
           'Pragma': 'no-cache',
           'Expires': '0',
         },
-
       };
 
+
+
       const response = await api(options)
+
 
 
       router.push('/')

@@ -6,9 +6,10 @@ import Menu from "./components/Menu";
 
 export async function getPosts({ searchParams }: SearchParams) {
 
-  const response = await fetch(process.env.URL + '/api/posts')
+  const response = await fetch(process.env.URL + '/api/posts', { cache: "no-store" })
 
   const data: Post[] = await response.json()
+
 
 
   const page = searchParams['page'] ?? '1'
@@ -44,10 +45,10 @@ export default async function Home({ searchParams }: SearchParams) {
 
   return (
     <div >
-      <div className="mx-auto max-w-5xl pt-10">
-        <div className="header flex items-center justify-between">
+      <div className="mx-auto max-w-5xl py-10">
+        <div className="header flex items-center mb-20 justify-between">
 
-          <h1 className="text-white text-4xl mb-10 font-bold text-center">
+          <h1 className="text-white text-4xl  font-bold text-center">
             Fake Posts Api with serverside pagination 😊👌
           </h1>
 

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import fsPromises from 'fs/promises'
 import { Post } from "@/types";
+import { nanoid } from "nanoid";
 
 const postsFilePath = path.join(process.cwd(), 'public/mocks/posts.json')
 
@@ -53,6 +54,7 @@ export async function PATCH(req: NextRequest) {
 
     const updatedData = JSON.stringify(jsonArray)
 
+
     await fsPromises.writeFile(postsFilePath, updatedData)
 
     return new NextResponse(JSON.stringify({ message: "Post patched sucessfuly" }),
@@ -74,7 +76,8 @@ export async function POST(req: NextRequest) {
 
     const { title, body, image_url } = await req.json()
 
-    const id = Number(jsonArray.length) + 1
+    const id = nanoid()
+
 
     jsonArray.push({ id, title, body, image_url })
 
@@ -102,7 +105,8 @@ export async function DELETE(req: NextRequest) {
     const { id } = await req.json()
 
 
-    const newJsonArray = jsonArray.filter((post: Post) => Number(id) !== post.id)
+
+    const newJsonArray = jsonArray.filter((post: Post) => id !== post.id)
 
     const updatedData = JSON.stringify(newJsonArray)
 

@@ -26,8 +26,13 @@ export default function Pagination({
   end,
   hasControls }: Pagination) {
 
+
+
+
   const hasPrevPage = start && start > 0
   const hasNextPage = end && end < lenght
+
+  if (!hasNextPage && !hasPrevPage) hasControls = false
 
   const router = useRouter()
   const searchParams = useSearchParams()
