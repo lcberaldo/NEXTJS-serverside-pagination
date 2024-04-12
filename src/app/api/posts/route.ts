@@ -1,61 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
-import fsPromises from 'fs/promises'
-import { Post } from "@/types";
-import { nanoid } from "nanoid";
+import { PrismaClient } from "@prisma/client";
 
-const postsFilePath = path.join(process.cwd(), 'public/mocks/posts.json')
+const prisma = new PrismaClient()
 
 
 export async function GET() {
+  const posts = await prisma.post.findMany()
 
-  try {
-    const posts = await fsPromises.readFile(postsFilePath, 'utf-8')
-    const json = await JSON.parse(posts)
+  return new NextResponse(JSON.stringify(posts))
 
-    return NextResponse.json(json)
-
-  } catch (error) {
-    console.log(error)
-    return new NextResponse(JSON.stringify({ message: 'No posts found' }), { status: 404, headers: { 'content-type': 'application/json' } })
-  }
 }
 
 export async function PATCH(req: NextRequest) {
   try {
-    const posts = await fsPromises.readFile(postsFilePath, 'utf-8')
-    const jsonArray = JSON.parse(posts)
-
 
     const { id, title, body, image_url } = await req.json()
 
+    const idAsANumber = Number(id)
 
-
-    const postIndex = jsonArray.findIndex((post: Post) => post.id === Number(id))
-
-
-    if (postIndex < 0) {
-      return new NextResponse(
-        JSON.stringify({ message: 'post not found' }),
-        { status: 404, headers: { 'Content-Type': 'application/json' } }
-      )
-    }
-
-    let desiredPost = jsonArray[postIndex]
-
-
-    desiredPost.id = id ? Number(id) : Number(desiredPost.id)
-    desiredPost.title = title ? title : desiredPost.title
-    desiredPost.body = body ? body : desiredPost.body
-    desiredPost.image_url = image_url ? image_url : desiredPost.image_url
-
-
-    jsonArray[postIndex] = desiredPost
-
-    const updatedData = JSON.stringify(jsonArray)
-
-
-    await fsPromises.writeFile(postsFilePath, updatedData)
+    const updatePost = await prisma.post.update({
+      where: {
+        id: idAsANumber,
+      },
+      data: {
+        title: title || undefined,
+        content: body || undefined,
+        image_url: image_url || undefined
+      },
+    })
 
     return new NextResponse(JSON.stringify({ message: "Post patched sucessfuly" }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
@@ -71,26 +43,23 @@ export async function PATCH(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const posts = await fsPromises.readFile(postsFilePath, 'utf-8')
-    const jsonArray = JSON.parse(posts)
 
-    const { title, body, image_url } = await req.json()
+    const data = await req.json();
+    const { title, body, image_url } = data
 
-    const id = nanoid()
+    const post = await prisma.post.create({
+      data: {
+        title,
+        content: body,
+        image_url
+      },
+    })
 
+    return new NextResponse(JSON.stringify(post))
 
-    jsonArray.push({ id, title, body, image_url })
-
-    const updatedData = JSON.stringify(jsonArray)
-
-    await fsPromises.writeFile(postsFilePath, updatedData)
-
-    return new NextResponse(JSON.stringify({ message: "Post Created sucessfuly" }),
-      { status: 201, headers: { 'Content-Type': 'application/json' } }
-    )
   } catch (error) {
     return new NextResponse(JSON.stringify(
-      { message: "Error reading or parsing the JSON file" }), {
+      { message: "Error connecting the database" }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     })
@@ -99,25 +68,24 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const posts = await fsPromises.readFile(postsFilePath, 'utf-8')
-    const jsonArray = JSON.parse(posts)
 
     const { id } = await req.json()
 
+    const idAsNumber = Number(id)
 
-
-    const newJsonArray = jsonArray.filter((post: Post) => id !== post.id)
-
-    const updatedData = JSON.stringify(newJsonArray)
-
-    await fsPromises.writeFile(postsFilePath, updatedData)
+    const deleteUser = await prisma.post.delete({
+      where: {
+        id: idAsNumber
+      },
+    })
 
     return new NextResponse(JSON.stringify({ message: "Post Deleted sucessfuly" }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     )
+
   } catch (error) {
     return new NextResponse(JSON.stringify(
-      { message: "Error reading or parsing the JSON file" }), {
+      { message: "Error connecting the database" }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     })

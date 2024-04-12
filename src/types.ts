@@ -1,9 +1,8 @@
 export type Post = {
-  id: number,
+  id: string,
   title: string,
-  body: string,
+  content: string,
   image_url: string,
-  post_index: string
 }
 
 export type CardType = {

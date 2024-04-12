@@ -6,6 +6,7 @@ import Menu from "./components/Menu";
 
 export async function getPosts({ searchParams }: SearchParams) {
 
+
   const response = await fetch(process.env.URL + '/api/posts', { cache: "no-store" })
 
   const data: Post[] = await response.json()

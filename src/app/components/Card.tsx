@@ -8,6 +8,7 @@ type PostProps = {
 
 const Card = ({ post }: PostProps) => {
 
+
   return (
     <div className='max-w-xs rounded-2xl overflow-hidden bg-zinc-200'>
       <div className='w-full'>
@@ -15,7 +16,7 @@ const Card = ({ post }: PostProps) => {
       </div>
       <div className='py-6 px-4 text-black min-h-52'>
         <h2 className='font-bold text-lg' >{post?.title}</h2>
-        <p>{post?.body}</p>
+        <p>{post?.content}</p>
       </div>
 
     </div>

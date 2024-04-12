@@ -19,11 +19,13 @@ const Form = ({ postId, formType, closeModal }: ParampsProps) => {
 
   async function handleDeletePost() {
 
-    console.log(postId)
 
 
 
     if (postId) {
+
+
+
       const options = {
         method: 'delete',
         url: '/posts',
@@ -86,6 +88,7 @@ const Form = ({ postId, formType, closeModal }: ParampsProps) => {
     if (options.method === 'post' && closeModal) {
       closeModal();
     }
+
 
     await api(options)
 

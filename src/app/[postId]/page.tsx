@@ -5,6 +5,7 @@ import Form from '../components/Form'
 import Link from 'next/link'
 import { ArrowBendDownLeft } from '@phosphor-icons/react/dist/ssr/ArrowBendDownLeft'
 
+
 type ParampsProps = {
   params: {
     postId: string
@@ -14,6 +15,7 @@ type ParampsProps = {
 const PostPage = async ({ params }: ParampsProps) => {
   const response = await fetch(process.env.URL + '/api/posts', { cache: "no-store" })
   const json: Post[] = await response.json()
+
 
   const { postId } = params
   const desiredPost = json.find((post: Post) => String(post.id) === postId)
