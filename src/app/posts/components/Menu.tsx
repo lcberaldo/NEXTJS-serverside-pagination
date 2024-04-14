@@ -13,11 +13,8 @@ type RefProps = {
 
 
 const Menu = () => {
-  const [isModalActive, setIsModalActive] = useState(false)
   const [isMenuOpen, setMenuOpen] = useState(false)
-
   const [open, setOpen] = useState(false);
-  const [backdrop, setBackdrop] = useState('static');
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

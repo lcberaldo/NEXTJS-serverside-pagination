@@ -1,37 +1,30 @@
 'use client'
 
-import api from "@/axios"
+import { headers } from "next/headers"
 import { useRouter } from "next/navigation"
 import { SyntheticEvent, useState } from "react"
 
 type ParampsProps = {
   postId?: string
-  formType: 'patch' | 'post',
+  formType: 'PATCH' | 'POST',
   closeModal?: () => void
 }
 
 const Form = ({ postId, formType, closeModal }: ParampsProps) => {
   const [isRequired, setRequired] = useState(() => {
-    if (formType === 'post') return true
+    if (formType === 'POST') return true
   })
 
   const router = useRouter()
 
   async function handleDeletePost() {
 
-
-
-
     if (postId) {
-
-
-
       const options = {
-        method: 'delete',
-        url: '/posts',
-        data: {
+        method: 'DELETE',
+        body: JSON.stringify({
           id: postId,
-        },
+        }),
         headers: {
           'Cache-Control': 'no-cache',
           'Pragma': 'no-cache',
@@ -40,14 +33,10 @@ const Form = ({ postId, formType, closeModal }: ParampsProps) => {
       };
 
 
+      const response = await fetch('/api/posts/', options)
 
-      const response = await api(options)
-
-
-
-      router.push('/')
+      router.push('/posts')
       router.refresh()
-
     }
   }
 
@@ -63,6 +52,7 @@ const Form = ({ postId, formType, closeModal }: ParampsProps) => {
 
     const form = event.currentTarget
 
+
     const formElements = form.elements as typeof form.elements & {
       title: HTMLInputElement,
       image_url: HTMLInputElement,
@@ -71,27 +61,27 @@ const Form = ({ postId, formType, closeModal }: ParampsProps) => {
 
     const title = formElements.title.value
     const image_url = formElements.image_url.value
-    const body = formElements.body.value
+    const content = formElements.body.value
+
+
+    const myHeaders = new Headers({
+      "Content-Type": "application/json",
+    });
 
     const options = {
       method: formType,
-      url: '/posts',
-      data: {
-        id: postId || null,
-        title,
-        image_url,
-        body
-      },
-
-    };
-
-    if (options.method === 'post' && closeModal) {
-      closeModal();
+      headers: myHeaders,
+      body: JSON.stringify({
+        title, image_url, content, id: postId
+      })
     }
 
+    if (options.method === 'POST' && closeModal) {
+      closeModal();
+    }
+    const response = await fetch('/api/posts/', options)
 
-    await api(options)
-
+    const json = await response.json()
 
     formElements.image_url.value = ''
     formElements.title.value = ''
@@ -119,7 +109,7 @@ const Form = ({ postId, formType, closeModal }: ParampsProps) => {
 
         <button className=' cursor-pointer text-left w-fit py-4 px-16 bg-green-500 font-bold text-white rounded-xl'>Publish</button>
 
-        {formType === 'patch' && (
+        {formType === 'PATCH' && (
 
           <button className="cursor-pointer text-left w-fit py-4 px-16 bg-red-500 font-bold text-white rounded-xl">Delete</button>
 

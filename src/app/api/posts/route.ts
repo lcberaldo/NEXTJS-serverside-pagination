@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { Post } from "@/types";
 
 const prisma = new PrismaClient()
 
@@ -14,7 +15,10 @@ export async function GET() {
 export async function PATCH(req: NextRequest) {
   try {
 
-    const { id, title, body, image_url } = await req.json()
+    const data: Post = await req.json()
+
+    const { title, image_url, content, id } = data
+
 
     const idAsANumber = Number(id)
 
@@ -24,7 +28,7 @@ export async function PATCH(req: NextRequest) {
       },
       data: {
         title: title || undefined,
-        content: body || undefined,
+        content: content || undefined,
         image_url: image_url || undefined
       },
     })
@@ -45,12 +49,12 @@ export async function POST(req: NextRequest) {
   try {
 
     const data = await req.json();
-    const { title, body, image_url } = data
+    const { title, content, image_url } = data
 
     const post = await prisma.post.create({
       data: {
         title,
-        content: body,
+        content,
         image_url
       },
     })
@@ -69,7 +73,10 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
 
-    const { id } = await req.json()
+    const data = await req.json()
+    const { id } = data
+
+    console.log(id)
 
     const idAsNumber = Number(id)
 

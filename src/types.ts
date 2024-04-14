@@ -5,6 +5,14 @@ export type Post = {
   image_url: string,
 }
 
+export type User = {
+  username: string,
+  pass: string,
+  id: string,
+  email: string,
+  name: string
+}
+
 export type CardType = {
   post: Post,
 }

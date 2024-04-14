@@ -12,7 +12,7 @@ const ModalComponent = ({ open, onClose, }: ModalProps) => {
   return (
     <Modal open={open} onClose={onClose}>
 
-      <Form formType='post' closeModal={onClose} />
+      <Form formType='POST' closeModal={onClose} />
 
       <button onClick={onClose}>Close/</button>
     </Modal>

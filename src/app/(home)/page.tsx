@@ -10,11 +10,11 @@ export default function Home() {
           <input className="w-full mb-5 py-0.5 px-2 rounded-lg outline-2 outline-blue-500" type="text" placeholder="Username" name="user" />
           <input className="w-full mb-5 py-0.5 px-2 rounded-lg outline-2 outline-blue-500" type="password" name="pass" id="" placeholder="password" />
 
-          <div className="flex justify-between items-center mt-4">
+          <span className="flex justify-between items-center mt-4">
             <input className="min-w-20 text-white border-2 border-green-500 text-sm bg-green-500 rounded-lg py-2 px-4 italic" type="submit" value="Login" />
 
             <Link className="min-w-20 text-blue-500 text-sm border-2 border-blue-500 rounded-lg py-2 px-4 italic" href='/signup'>Sign up</Link>
-          </div>
+          </span>
         </form>
       </div>
     </div>
