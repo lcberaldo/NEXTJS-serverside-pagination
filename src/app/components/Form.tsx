@@ -35,7 +35,7 @@ const Form = ({ postId, formType, closeModal }: ParampsProps) => {
 
       const response = await fetch('/api/posts/', options)
 
-      router.push('/posts')
+      router.push('/')
       router.refresh()
     }
   }

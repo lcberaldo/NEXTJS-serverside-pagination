@@ -25,7 +25,7 @@ const PostPage = async ({ params }: ParampsProps) => {
       <div className='max-w-5xl pt-10 mb-24  flex align-center justify-between mx-auto'>
         <h1 className='text-4xl text-center font-bold'>Post edit</h1>
 
-        <Link href='/posts'>
+        <Link href='/'>
           <ArrowBendDownLeft size={30} />
         </Link>
       </div >

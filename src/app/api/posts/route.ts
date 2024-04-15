@@ -76,7 +76,6 @@ export async function DELETE(req: NextRequest) {
     const data = await req.json()
     const { id } = data
 
-    console.log(id)
 
     const idAsNumber = Number(id)
 

@@ -1,26 +1,71 @@
-import Link from "next/link"
+import { Post, SearchParams } from "@/types";
+import { CardContainer } from "./components/CardContainer";
+import Menu from "../components/Menu";
+import Pagination from "./components/Pagination";
 
-export default function Home() {
-  return (
-    <div>
-      <div className="max-w-screen-lg mx-auto h-lvh flex flex-col items-center justify-center">
-        <h1 className="pb-14 text-white font-bold text-3xl max-w-md text-center">Welcome to my post aplication, please login:</h1>
 
-        <form className="w-80 p-8 border-2 border-white rounded-2xl">
-          <input className="w-full mb-5 py-0.5 px-2 rounded-lg outline-2 outline-blue-500" type="text" placeholder="Username" name="user" />
-          <input className="w-full mb-5 py-0.5 px-2 rounded-lg outline-2 outline-blue-500" type="password" name="pass" id="" placeholder="password" />
+export async function getPosts({ searchParams }: SearchParams) {
 
-          <span className="flex justify-between items-center mt-4">
-            <input className="min-w-20 text-white border-2 border-green-500 text-sm bg-green-500 rounded-lg py-2 px-4 italic" type="submit" value="Login" />
 
-            <Link className="min-w-20 text-blue-500 text-sm border-2 border-blue-500 rounded-lg py-2 px-4 italic" href='/signup'>Sign up</Link>
-          </span>
-        </form>
-      </div>
-    </div>
-  )
+  const response = await fetch(process.env.URL + '/api/posts', { cache: "no-store" })
+
+  const data: Post[] = await response.json()
+
+  const page = searchParams['page'] ?? '1'
+
+  const pageSize = 9;
+  const pagesCount = Math.ceil(data.length / pageSize);
+
+  const start = (Number(page) - 1) * pageSize
+  const end = start + pageSize
+
+  const entries = data.reverse().slice(start, end)
+
+  return { entries, pagesCount, start, end, lenght: data.length }
 }
 
+export default async function Posts({ searchParams }: SearchParams) {
 
+  const {
+    entries,
+    pagesCount,
+    start,
+    end,
+    lenght
+  } = await getPosts({ searchParams })
 
+  if (!entries) return null
 
+  return (
+    <div >
+      <div className="mx-auto max-w-5xl py-10">
+        <div className="header flex items-center mb-20 justify-between">
+
+          <h1 className="text-white text-4xl  font-bold text-center">
+            Fake Posts Api with serverside pagination 😊👌
+          </h1>
+
+          <Menu />
+        </div>
+        <Pagination
+          pagesCount={pagesCount}
+          lenght={lenght}
+          hasControls={true}
+          start={start}
+          end={end}
+        />
+
+        <CardContainer entries={entries} />
+
+        <Pagination
+          pagesCount={pagesCount}
+          lenght={lenght}
+          hasControls={true}
+          start={start}
+          end={end}
+        />
+      </div>
+    </div>
+  );
+
+}

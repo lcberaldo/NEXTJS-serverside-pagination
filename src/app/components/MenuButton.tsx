@@ -1,26 +1,20 @@
 'use client'
 
 import 'rsuite/Popover/styles/index.css';
-import { Button, Popover, Whisper } from 'rsuite';
-import { CheckSquare, PlusCircle, } from '@phosphor-icons/react';
-import { Twirl as Hamburger } from 'hamburger-react'
-import { useRef, useState } from 'react';
-import ModalComponent from '@/app/components/Modal';
+import Hamburger from 'hamburger-react'
+import { useRef, useState } from 'react'
+import { Button, Popover, Whisper } from 'rsuite'
+import ModalComponent from './Modal'
+import { CheckSquare, PlusCircle } from '@phosphor-icons/react';
 
-type RefProps = {
-  close: () => void
-}
-
-
-const Menu = () => {
+export default function MenuButton() {
   const [isMenuOpen, setMenuOpen] = useState(false)
   const [open, setOpen] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const whisperRef = useRef<RefProps>()
-
-
+  const whisperRef = useRef(null)
 
 
   function handleCreateModal(e: React.FormEvent) {
@@ -38,6 +32,7 @@ const Menu = () => {
   }
 
 
+
   const speaker = (
     <Popover style={{ padding: 20 }} >
       <button onClick={handleCreateModal} className='p-2 bg-green-500 rounded-lg mr-2 '><PlusCircle size={30} color='#fff' /></button>
@@ -46,7 +41,7 @@ const Menu = () => {
   );
 
   return (
-    <div className="relative"  >
+    <>
       <ModalComponent open={open} onClose={handleClose} />
 
       <Whisper
@@ -59,9 +54,6 @@ const Menu = () => {
         <Button ><Hamburger toggled={isMenuOpen} toggle={setMenuOpen} size={30} /></Button>
       </Whisper>
 
-
-    </div >
+    </>
   )
 }
-
-export default Menu
