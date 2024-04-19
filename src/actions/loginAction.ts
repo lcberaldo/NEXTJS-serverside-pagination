@@ -52,6 +52,14 @@ export async function loginAction(formdata: FormData) {
     sameSite: 'strict'
   })
 
+  cookies().set("SessionId", String(user.id), {
+    secure: true,
+    httpOnly: true,
+    expires: Date.now() + 24 * 60 * 60 * 1000 * 3,
+    path: '/',
+    sameSite: 'strict'
+  })
+
   redirect('/')
 
 }

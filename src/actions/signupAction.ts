@@ -31,6 +31,6 @@ export async function signupAction(formdata: FormData) {
     }
   })
 
-  redirect('/posts')
+  redirect('/')
 
 }

@@ -1,7 +1,7 @@
 import { Post, SearchParams } from "@/types";
-import { CardContainer } from "./components/CardContainer";
+import { CardContainer } from "../components/CardContainer";
 import Menu from "../components/Menu";
-import Pagination from "./components/Pagination";
+import Pagination from "../components/Pagination";
 
 
 export async function getPosts({ searchParams }: SearchParams) {
@@ -37,16 +37,11 @@ export default async function Posts({ searchParams }: SearchParams) {
   if (!entries) return null
 
   return (
-    <div >
+    <>
       <div className="mx-auto max-w-5xl py-10">
-        <div className="header flex items-center mb-20 justify-between">
 
-          <h1 className="text-white text-4xl  font-bold text-center">
-            Fake Posts Api with serverside pagination 😊👌
-          </h1>
+        <Menu>Welcome to Fake Post API 👌</Menu>
 
-          <Menu />
-        </div>
         <Pagination
           pagesCount={pagesCount}
           lenght={lenght}
@@ -65,7 +60,7 @@ export default async function Posts({ searchParams }: SearchParams) {
           end={end}
         />
       </div>
-    </div>
+    </>
   );
 
 }

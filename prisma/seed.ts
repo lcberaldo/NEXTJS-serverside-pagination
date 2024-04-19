@@ -5,9 +5,7 @@ import { posts } from "./posts"
 const prisma = new PrismaClient()
 
 async function load() {
-
   await prisma.post.createMany({ data: posts })
-
 }
 
 load().catch(e => {

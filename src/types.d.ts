@@ -1,5 +1,5 @@
 export type Post = {
-  id: string,
+  id: number,
   title: string,
   content: string,
   image_url: string,
@@ -8,7 +8,7 @@ export type Post = {
 export type User = {
   username: string,
   pass: string,
-  id: string,
+  id: number,
   email: string,
   name: string
 }

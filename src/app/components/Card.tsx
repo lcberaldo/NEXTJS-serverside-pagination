@@ -3,11 +3,10 @@ import Image from 'next/image'
 import React from 'react'
 
 type PostProps = {
-  post: Post
+  post: Post,
 }
 
 const Card = ({ post }: PostProps) => {
-
 
   return (
     <div className='max-w-xs rounded-2xl overflow-hidden bg-zinc-200'>
