@@ -5,12 +5,18 @@ import Hamburger from 'hamburger-react'
 import { useRef, useState } from 'react'
 import { Button, Popover, Whisper } from 'rsuite'
 import ModalComponent from './Modal'
-import { CheckSquare, HouseSimple, Note, PlusCircle, UserCircle } from '@phosphor-icons/react';
+import { HouseSimple, Note, PlusCircle, UserCircle } from '@phosphor-icons/react';
 import Link from 'next/link';
+import { OverlayTriggerHandle } from 'rsuite/esm/internals/Picker';
+
 
 export default function MenuButton() {
   const [isMenuOpen, setMenuOpen] = useState(false)
   const [open, setOpen] = useState(false);
+
+  function handleCloseMenu() {
+    setMenuOpen(false)
+  }
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -30,7 +36,6 @@ export default function MenuButton() {
     handleOpen()
   }
 
-
   const speaker = (
     <Popover style={{ padding: 20 }} >
       <Link href='/' className='flex gap-2 mb-2'>
@@ -47,12 +52,6 @@ export default function MenuButton() {
         <PlusCircle size={20} color='black' />
         <span className='text-black  font-bold'>Add Post</span>
       </button>
-
-      <button className='flex gap-2 mb-2'>
-        <CheckSquare size={20} color='black' />
-        <span className='text-black  font-bold'>Select</span>
-      </button>
-
 
       <Link href='/my-posts' className='gap-2 flex '>
         <Note size={20} color='black' />
@@ -72,7 +71,11 @@ export default function MenuButton() {
         ref={whisperRef}
 
       >
-        <Button ><Hamburger toggled={isMenuOpen} toggle={setMenuOpen} size={30} /></Button>
+
+        <Button onBlur={handleCloseMenu} >
+          <Hamburger toggled={isMenuOpen} toggle={setMenuOpen} size={30} />
+        </Button>
+
       </Whisper>
 
     </>

@@ -10,7 +10,7 @@ type ModalProps = {
 const ModalComponent = ({ open, onClose, }: ModalProps) => {
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} onBlur={onClose}>
 
       <Form formType='POST' closeModal={onClose} />
 
